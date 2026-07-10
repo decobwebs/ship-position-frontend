@@ -1,0 +1,76 @@
+/*
+  New tokens only. --bg/--card/--ink/--muted/--line/--high/--medium/--low/--info/
+  --berth/--anchor/--expect/--sail/--cancel/--accent/--accent-soft stay defined in
+  main.css until each page is migrated (phase 2/3/5) - that's when the black/white
+  re-theme of those specific vars happens, so this file never causes a visual jump.
+*/
+:root {
+  --paper: #ffffff;
+  --ink-soft: #3f4045;
+  --line-strong: #d4d4d9;
+
+  /* brand: ink-on-paper CTA, replaces blue --accent once pages migrate */
+  --cta-bg: #0a0a0b;
+  --cta-ink: #ffffff;
+  --focus-ring: #0a0a0b;
+  --accent-ai: #3556d6;
+  --accent-ai-soft: #eef1fc;
+
+  /* spacing (4px base) */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+
+  /* radius - bold, app-like scale */
+  --r-sm: 12px;
+  --r-md: 20px;
+  --r-lg: 28px;
+  --r-pill: 999px;
+
+  /* elevation - black-tinted, no colored shadows */
+  --shadow-sm: 0 1px 2px rgba(10, 10, 11, .06);
+  --shadow-md: 0 8px 24px rgba(10, 10, 11, .10);
+  --shadow-lg: 0 16px 48px rgba(10, 10, 11, .16);
+
+  /* motion */
+  --dur-instant: 100ms;
+  --dur-fast: 180ms;
+  --dur-base: 260ms;
+  --dur-slow: 420ms;
+  --dur-hold: 2000ms;
+  --ease-standard: cubic-bezier(.4, 0, .2, 1);
+  --ease-out: cubic-bezier(.2, .8, .2, 1);
+  --ease-pop: cubic-bezier(.34, 1.56, .64, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #0b0b0c;
+    --ink-soft: #c9cad0;
+    --line-strong: #2e2e32;
+    --cta-bg: #ffffff;
+    --cta-ink: #0a0a0b;
+    --accent-ai: #7c93ea;
+    --accent-ai-soft: #1a2036;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-instant: 0ms;
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-slow: 0ms;
+    --dur-hold: 6000ms;
+  }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
