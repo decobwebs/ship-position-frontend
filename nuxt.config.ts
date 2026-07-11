@@ -1,6 +1,10 @@
 export default defineNuxtConfig({
   devtools: { enabled: false },
   ssr: true,
+  // Explicit for reliability; Nitro also auto-detects the `VERCEL` env var on its own.
+  nitro: {
+    preset: process.env.VERCEL ? 'vercel' : undefined,
+  },
   modules: ['@nuxtjs/tailwindcss', '@nuxt/fonts'],
   components: [{ path: '~/components', pathPrefix: false }],
   css: ['~/assets/tokens.css', '~/assets/main.css'],
