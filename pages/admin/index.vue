@@ -49,11 +49,14 @@ onMounted(async () => {
         <h3 class="mb-1">Knowledge gaps</h3>
         <p class="muted text-sm">What the assistant doesn't know, ranked with evidence.</p>
       </NuxtLink>
+      <NuxtLink to="/admin/exemplars" class="card hoverable:border-accent-ai" style="display:block">
+        <h3 class="mb-1">Style exemplars</h3>
+        <p class="muted text-sm">Tone corrections applied to future answers of the same kind.</p>
+      </NuxtLink>
+      <NuxtLink to="/admin/routing" class="card hoverable:border-accent-ai" style="display:block">
+        <h3 class="mb-1">Routing rules</h3>
+        <p class="muted text-sm">Force a question type, dry-run tested before it goes live.</p>
+      </NuxtLink>
     </div>
-
-    <section class="card mt-4" style="max-width: 480px">
-      <h3>Coming next</h3>
-      <p class="muted text-sm">Expert interviews and the feedback loop land in the next build stages.</p>
-    </section>
   </div>
 </template>
