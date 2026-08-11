@@ -8,27 +8,27 @@ const props = withDefaults(defineProps<{
 })
 const emit = defineEmits<{ close: [] }>()
 
-const base = useRuntimeConfig().public.apiBase as string
+const { request } = useApi()
+const { get: getSessionId, reset: resetSessionId } = useChatSession()
 
 const q = ref('')
 const busy = ref(false)
 const msgs = ref<any[]>([])
 const sessionId = ref('')
-const SESSION_KEY = 'port_chat_session'
 const scrollEl = ref<HTMLElement | null>(null)
 
 onMounted(async () => {
-  let sid = localStorage.getItem(SESSION_KEY)
-  if (!sid) { sid = crypto.randomUUID(); localStorage.setItem(SESSION_KEY, sid) }
-  sessionId.value = sid
+  sessionId.value = getSessionId()
   try {
-    const rows: any[] = await $fetch(`${base}/api/history?session_id=${sid}`)
+    // useApi() attaches the login token when present, so a signed-in user sees
+    // a claimed session's history even after it stops being readable anonymously.
+    const rows: any[] = await request(`/api/history?session_id=${sessionId.value}`)
     msgs.value = (rows || []).map((r) => ({
       role: r.role === 'assistant' ? 'bot' : 'user', text: r.content, suggestions: [],
     }))
     await nextTick()
     scrollToBottom()
-  } catch { /* first visit, no history yet */ }
+  } catch { /* first visit, or history no longer readable here — start fresh */ }
 })
 
 function scrollToBottom() {
@@ -40,9 +40,7 @@ function scrollToBottom() {
 }
 
 function newChat() {
-  const sid = crypto.randomUUID()
-  localStorage.setItem(SESSION_KEY, sid)
-  sessionId.value = sid
+  sessionId.value = resetSessionId()
   msgs.value = []
   q.value = ''
 }
@@ -64,7 +62,7 @@ async function send(text?: string) {
   await nextTick()
   scrollToBottom()
   try {
-    const r: any = await $fetch(`${base}/api/ask`, {
+    const r: any = await request('/api/ask', {
       method: 'POST',
       body: { question, session_id: sessionId.value },
     })

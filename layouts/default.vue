@@ -5,6 +5,7 @@ const isAsk = computed(() => route.path === '/ask')
 
 <template>
   <div class="app-shell">
+    <AccountCorner />
     <slot />
     <BottomNav />
     <ChatSheet v-if="!isAsk" />

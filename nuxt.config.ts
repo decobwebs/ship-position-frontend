@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   nitro: {
     preset: process.env.VERCEL ? 'vercel' : undefined,
   },
-  modules: ['@nuxtjs/tailwindcss', '@nuxt/fonts'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxt/fonts', '@nuxtjs/supabase'],
   components: [{ path: '~/components', pathPrefix: false }],
   css: ['~/assets/tokens.css', '~/assets/main.css'],
   fonts: {
@@ -13,6 +13,15 @@ export default defineNuxtConfig({
       { name: 'Geist', provider: 'fontsource', global: true },
       { name: 'Geist Mono', provider: 'fontsource', global: true },
     ],
+  },
+  // redirect: false — we gate individual pages ourselves via middleware/{auth,admin,expert}.ts.
+  // The module's own global-redirect behaviour would fight that (the dashboard and chat
+  // stay open to anonymous visitors by design; only /account, /chats, /expert, /admin gate).
+  supabase: {
+    redirect: false,
+    url: process.env.NUXT_PUBLIC_SUPABASE_URL,
+    key: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY,
+    types: false, // we only use supabase-js for Auth, never its typed table client
   },
   runtimeConfig: {
     public: {
